@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Desafio da Função Quadrática</title>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        text-align: center;
+        background-color: #f4f7ff;
+        padding: 30px;
+    }
+
+    .container {
+        max-width: 500px;
+        margin: auto;
+        background: white;
+        padding: 25px;
+        border-radius: 15px;
+        box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    }
+
+    h1 {
+        color: #4a4aff;
+    }
+
+    input {
+        width: 80px;
+        padding: 8px;
+        margin: 10px;
+        font-size: 16px;
+    }
+
+    button {
+        padding: 10px 20px;
+        font-size: 16px;
+        background-color: #4a4aff;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background-color: #3636d6;
+    }
+
+    #resultado {
+        margin-top: 20px;
+        font-weight: bold;
+    }
+
+    #pontuacao {
+        font-size: 20px;
+        color: green;
+    }
+</style>
+</head>
+
+<body>
+
+<div class="container">
+    <h1>🎮 Desafio da Função Quadrática</h1>
+
+    <p>Resolva a equação:</p>
+    <h2 id="equacao"></h2>
+
+    <p>Digite as raízes:</p>
+
+    <label>x₁:</label>
+    <input type="number" id="x1" step="any">
+
+    <label>x₂:</label>
+    <input type="number" id="x2" step="any">
+
+    <br><br>
+
+    <button onclick="verificar()">Responder</button>
+
+    <p id="resultado"></p>
+    <p id="pontuacao">Pontos: 0</p>
+</div>
+
+<script>
+let pontos = 0;
+let raiz1, raiz2;
+
+function novaQuestao() {
+    let r1 = Math.floor(Math.random() * 10) - 5;
+    let r2 = Math.floor(Math.random() * 10) - 5;
+
+    while (r1 === r2) {
+        r2 = Math.floor(Math.random() * 10) - 5;
+    }
+
+    raiz1 = r1;
+    raiz2 = r2;
+
+    let a = 1;
+    let b = -(r1 + r2);
+    let c = r1 * r2;
+
+    let texto = `${a}x² `;
+
+    texto += b >= 0 ? `+ ${b}x ` : `- ${Math.abs(b)}x `;
+    texto += c >= 0 ? `+ ${c}` : `- ${Math.abs(c)}`;
+
+    texto += " = 0";
+
+    document.getElementById("equacao").textContent = texto;
+
+    document.getElementById("x1").value = "";
+    document.getElementById("x2").value = "";
+    document.getElementById("resultado").textContent = "";
+}
+
+function verificar() {
+    const resposta1 = Number(document.getElementById("x1").value);
+    const resposta2 = Number(document.getElementById("x2").value);
+
+    if (
+        (resposta1 === raiz1 && resposta2 === raiz2) ||
+        (resposta1 === raiz2 && resposta2 === raiz1)
+    ) {
+        pontos += 10;
+        document.getElementById("resultado").textContent =
+            "✅ Correto! +10 pontos";
+    } else {
+        document.getElementById("resultado").textContent =
+            `❌ Errado! As raízes eram ${raiz1} e ${raiz2}.`;
+    }
+
+    document.getElementById("pontuacao").textContent =
+        `Pontos: ${pontos}`;
+
+    setTimeout(novaQuestao, 2000);
+}
+
+novaQuestao();
+</script>
+
+</body>
+</html>
